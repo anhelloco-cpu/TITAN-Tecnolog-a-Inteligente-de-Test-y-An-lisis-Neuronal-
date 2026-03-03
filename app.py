@@ -1575,7 +1575,7 @@ if st.session_state.page == 'game':
     # ==========================================================
     # 🕵️‍♂️ PASO 3: EL VIGILANTE DE HITOS (SENSOR)
     # ==========================================================
-    hitos_objetivo = [0, 20, 40, 60, 80]  # Agregamos el 0 para que salte apenas inicies
+    hitos_objetivo = [5, 20, 40, 60, 80]  # Agregamos el 0 para que salte apenas inicies
     for hito in hitos_objetivo:
         if perc >= hito and hito not in st.session_state.hitos_vistos:
             st.session_state.hitos_vistos.add(hito)
