@@ -1565,7 +1565,7 @@ if st.session_state.page == 'game':
     perc, fails, total = engine.get_stats()
 
 # --- 🕵️‍♂️ SENSOR DE HITOS (PAUSA ACTIVA) ---
-    hitos_objetivo = [5, 40, 60, 80]
+    hitos_objetivo = [10, 20, 30, 40, 50, 60, 70, 80]
     for hito in hitos_objetivo:
         if perc >= hito and hito not in st.session_state.hitos_vistos:
             st.session_state.hitos_vistos.add(hito)
