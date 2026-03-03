@@ -1056,34 +1056,41 @@ class LegalEngineTITAN:
                 if attempts == max_retries: return {"error": f"Fallo Crítico: {str(e)}"}
         return {"error": "Saturado."}
 
-# --- 🚀 NUEVA FUNCIÓN: GENERADOR DE PAUSA ACTIVA (EL CHISME) ---
+# --- 🚀 FUNCIÓN COMPLETA: GENERADOR DE PAUSA ACTIVA (CHISME REAL Y ACTUAL) ---
     def generar_chisme_ia(self, label_articulo):
-        """Genera un chisme relajado de pasillo, corto y con moraleja."""
+        """Genera un chisme de pasillo basado en escándalos reales y actuales de Colombia."""
+        
+        # 1. Recuperamos el texto del PDF para que la IA no pierda el norte técnico
         contexto = self.sections_map.get(self.active_section_name, "Normativa General")
         
+        # 2. El Prompt Maestro: Mezcla de ley, chisme de oficina y noticias de hoy
         prompt_chismosa = f"""
-        ACTÚA COMO UN COMPAÑERO DE TRABAJO RELAJADO en una pausa para café en un juzgado colombiano.
-        Misión: Contar una anécdota corta y curiosa (real o verosímil) relacionada con: {label_articulo}.
+        ACTÚA COMO UN COMPAÑERO DE LA RAMA JUDICIAL en una pausa para café en un juzgado colombiano.
+        Misión: Contar un chisme o escándalo REAL Y ACTUAL de Colombia (noticias de los últimos meses o años) que se relacione directamente con: {label_articulo}.
 
-        REGLAS DE ORO (ESTILO RELAJADO):
-        1. ☕ TONO DE CAFETERÍA: Nada de dramas oscuros. Usa frases como "No se imaginan lo que vi...", "Me contaron de un proceso...", "Casi no cierran el despacho porque...".
-        2. ✂️ BREVEDAD EXTREMA: Máximo 2 o 3 párrafos muy cortos. Queremos que leas esto en 15 segundos.
-        3. 🇨🇴 LENGUAJE NATURAL: Usa términos como "el sustanciar", "se embolató", "el chicharrón", "el tinto", "la firma".
-        4. 📖 ESTRUCTURA:
-           - Título amigable con emojis (ej: ☕ Nota de pasillo).
-           - El cuento (fácil de digerir).
-           - 📍 EL VEREDICTO: La moraleja técnica en una sola línea.
+        REGLAS DE ORO (ESTILO RADIO-PASILLO ACTUAL):
+        1. 🗞️ ACTUALIDAD PURA: Usa escándalos reales que hayan salido en prensa (ej: el lío de la UNGRD, los carrotanques, chicharrones en la Fiscalía, o la última tutela famosa que falló la Corte). Menciona nombres o entidades si es necesario.
+        2. ☕ TONO DE CAFETERÍA: Cuéntalo como si me estuvieras poniendo al tanto de la movida nacional mientras tomamos un tinto. Nada de lenguaje acartonado.
+        3. ✂️ BREVEDAD: Máximo 3 párrafos muy cortos. Es una pausa, no una lectura de sentencia.
+        4. 🗣️ JERGA JUDICIAL: Usa términos como "sustanciar", "se le embolató", "el chicharrón", "meter el mico".
+        5. 📖 ESTRUCTURA OBLIGATORIA:
+           - Título: ☕ Nota de pasillo: [Tema de la noticia].
+           - El cuento: La "comidilla" de la oficina sobre ese caso real.
+           - 📍 EL VEREDICTO: Una sola frase que explique por qué ese escándalo prueba que el artículo {label_articulo} es tan importante.
 
-        FUENTE TÉCNICA: {contexto[:1200]}
+        FUENTE TÉCNICA (Para no decir mentiras legales): {contexto[:1200]}
         """
+
         try:
             if self.provider == "Google":
+                # Llamada a Gemini para que use su base de datos de noticias
                 res = self.model.generate_content(prompt_chismosa)
-                return res.text.replace("*", "") # Limpia asteriscos de formato
-            return "☕ ¡Se acabó el café! Vuelve al simulacro."
-        except:
-            return "El chisme está en reserva. ¡A estudiar!"
-
+                # Limpiamos el texto de asteriscos y basura de formato
+                texto_limpio = res.text.replace("*", "").replace("#", "")
+                return texto_limpio
+            return "☕ ¡Se acabó el tinto! No hay chisme disponible."
+        except Exception as e:
+            return f"El chisme está en reserva sumarial. (Error: {str(e)})"
 # ### --- FIN PARTE 4 ---
 # ### --- INICIO PARTE 5: BARRA LATERAL (SIDEBAR Y SETUP) ---
 # ==========================================
