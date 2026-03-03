@@ -1059,7 +1059,8 @@ class LegalEngineTITAN:
 # --- 🚀 NUEVA FUNCIÓN: GENERADOR DE PAUSA ACTIVA (EL CHISME) ---
     def generar_chisme_ia(self, label_articulo):
         """Genera chisme de alto voltaje con lenguaje de pasillo."""
-        contenido_norma = self.sections_map.get(self.active_section_name, "Normativa General")
+        # 🛡️ LA LÍNEA QUE FALTABA: Definimos el contexto antes de usarlo
+        contexto = self.sections_map.get(self.active_section_name, "Normativa General")
         
         prompt_chismosa = f"""
         ERES 'LA SOMBRA DEL PALACIO'. No tienes tiempo para cuentos largos. 
@@ -1079,10 +1080,12 @@ class LegalEngineTITAN:
         """
         try:
             if self.provider == "Google":
-                return self.model.generate_content(prompt_chismosa).text
+                res = self.model.generate_content(prompt_chismosa)
+                return res.text
             return "¡Se cortó la luz en la cafetería! No hay chisme."
         except:
             return "¡Shhh! Nos están escuchando. Vuelve al combate mejor."
+
 # ### --- FIN PARTE 4 ---
 # ### --- INICIO PARTE 5: BARRA LATERAL (SIDEBAR Y SETUP) ---
 # ==========================================
