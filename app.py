@@ -1055,6 +1055,42 @@ class LegalEngineTITAN:
                 time.sleep(1); attempts += 1
                 if attempts == max_retries: return {"error": f"Fallo Crítico: {str(e)}"}
         return {"error": "Saturado."}
+
+
+
+# --- 🚀 NUEVA FUNCIÓN: GENERADOR DE PAUSA ACTIVA (EL CHISME) ---
+    def generar_chisme_ia(self, label_articulo):
+        """Llama a la IA para convertir un artículo 'hueso' en un chisme de pasillo."""
+        
+        # Intentamos buscar el texto del artículo en el mapa para que la IA sea precisa
+        contenido_norma = self.sections_map.get(self.active_section_name, "Contenido general de la norma")
+        
+        prompt_chismosa = f"""
+        ACTÚA COMO UNA 'CHISMOSA JURÍDICA' EXPERTA Y DIVERTIDA. 
+        Tu misión es contar un chisme o historia corta (máximo 3 párrafos) que sirva de PAUSA ACTIVA 
+        sobre el tema del: {label_articulo}.
+
+        ESTRUCTURA DE TU RESPUESTA (OBLIGATORIA):
+        1. 🤫 UN TÍTULO LLAMATIVO con emojis de chisme.
+        2. EL CHISME: Cuéntalo como si estuviéramos en la cafetería del juzgado. 
+           Usa un tono informal, atrapante y relajado. Puedes usar casos reales colombianos 
+           o ficciones muy realistas que ilustren la norma.
+        3. 📍 EL VEREDICTO (MORALEJA): Una frase corta estilo Esopo que resuma la 'pepa' 
+           técnica del artículo para que el usuario NO lo olvide en el examen.
+
+        FUENTE TÉCNICA (Usa esto como base): {contenido_norma[:1500]}
+        """
+        
+        try:
+            # Usamos el motor de Google que ya tienes configurado en tu TITÁN
+            if self.provider == "Google":
+                res = self.model.generate_content(prompt_chismosa)
+                return res.text
+            # Si usas OpenAI o Groq, aquí se podría añadir el llamado similar
+            return "¡Se cayó el internet en el juzgado! No pude conseguir el chisme, pero sigue dándole duro."
+        except Exception as e:
+            return f"El chisme está en reserva sumarial. ¡Vuelve al estudio, Titán! (Error: {str(e)})"
+
 # ### --- FIN PARTE 4 ---
 # ### --- INICIO PARTE 5: BARRA LATERAL (SIDEBAR Y SETUP) ---
 # ==========================================
@@ -1065,6 +1101,11 @@ if 'case_id' not in st.session_state: st.session_state.case_id = 0 # ID Único p
 if 'page' not in st.session_state: st.session_state.page = 'setup'
 if 'q_idx' not in st.session_state: st.session_state.q_idx = 0
 if 'answered' not in st.session_state: st.session_state.answered = False
+
+# --- VARIABLES DE PAUSA ACTIVA ---
+if 'hitos_vistos' not in st.session_state: st.session_state.hitos_vistos = set()
+if 'estado_pausa' not in st.session_state: st.session_state.estado_pausa = "none" # none, checkpoint, chisme
+if 'chisme_actual' not in st.session_state: st.session_state.chisme_actual = ""
 
 # NUEVO: ANCLA DE MEMORIA PARA EL MANUAL (EVITA BUCLE DE PURIFICACIÓN)
 if 'manual_hash' not in st.session_state: st.session_state.manual_hash = None
@@ -1530,6 +1571,53 @@ def generar_sopa_letras(palabra):
 
 if st.session_state.page == 'game':
     perc, fails, total = engine.get_stats()
+    
+    # ==========================================================
+    # 🕵️‍♂️ PASO 3: EL VIGILANTE DE HITOS (SENSOR)
+    # ==========================================================
+    hitos_objetivo = [0, 20, 40, 60, 80]  # Agregamos el 0 para que salte apenas inicies
+    for hito in hitos_objetivo:
+        if perc >= hito and hito not in st.session_state.hitos_vistos:
+            st.session_state.hitos_vistos.add(hito)
+            st.session_state.estado_pausa = "checkpoint"
+            st.rerun()
+
+    # --- A. PANTALLA DE DECISIÓN (EL CHECKPOINT) ---
+    if st.session_state.estado_pausa == "checkpoint":
+        st.markdown(f"<h1 style='text-align: center;'>🏁 ¡Hito alcanzado: {perc}%!</h1>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center;'>Te has ganado un chisme. ¿Lo quieres ahora o sigues en racha?</h3>", unsafe_allow_html=True)
+        st.write("")
+        
+        col_ch, col_ra = st.columns(2)
+        
+        if col_ch.button("☕ Tomar Pausa (Ver Chisme)", use_container_width=True):
+            # Prioridad: Artículos fallados (los que te cuestan)
+            pendientes = list(engine.failed_articles)
+            articulo_chisme = random.choice(pendientes) if pendientes else "Temática General"
+            
+            with st.spinner("🤫 Buscando el chisme en los pasillos..."):
+                st.session_state.chisme_actual = engine.generar_chisme_ia(articulo_chisme)
+                st.session_state.estado_pausa = "chisme"
+            st.rerun()
+            
+        if col_ra.button("🔥 Seguir en Racha", use_container_width=True):
+            st.session_state.estado_pausa = "none"
+            st.rerun()
+            
+        st.stop() # Bloqueo de seguridad: no renderiza el resto del juego
+
+    # --- B. PANTALLA DE LA PAUSA ACTIVA (EL CHISME) ---
+    if st.session_state.estado_pausa == "chisme":
+        st.markdown(st.session_state.chisme_actual)
+        st.divider()
+        if st.button("🚀 Ya me enteré de todo, ¡volver al combate!", use_container_width=True):
+            st.session_state.estado_pausa = "none"
+            st.rerun()
+        st.stop() # Bloqueo de seguridad: disfrutas el chisme tranquilo
+
+    # ==========================================================
+    # 📊 TUS MÉTRICAS ORIGINALES (SOLO SE VEN SI NO HAY PAUSA)
+    # ==========================================================
     subtitulo = f"SECCIÓN: {engine.active_section_name}" if engine.active_section_name != "Todo el Documento" else "MODO: GENERAL"
     
     st.info(f"🎯 ENFOQUE CONFIRMADO: **{engine.current_article_label}**")
@@ -1537,6 +1625,7 @@ if st.session_state.page == 'game':
     c1, c2, c3 = st.columns(3)
     c1.metric("📊 Dominio Global", f"{perc}%")
     c2.metric("❌ Preguntas Falladas", f"{fails}")
+    # Tu lógica de conteo de bloques intacta
     c3.metric("📉 Bloques Vistos", f"{len([v for k, v in engine.mastery_tracker.items() if v > 0 and f'[{engine.clean_label(engine.thematic_axis)}]' in str(k)])}/{total}")
 
     st.markdown(f"**EJE: {engine.thematic_axis.upper()}** | **{subtitulo}**")
