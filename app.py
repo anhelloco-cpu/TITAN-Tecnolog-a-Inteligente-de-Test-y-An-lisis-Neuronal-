@@ -1058,29 +1058,31 @@ class LegalEngineTITAN:
 
 # --- 🚀 NUEVA FUNCIÓN: GENERADOR DE PAUSA ACTIVA (EL CHISME) ---
     def generar_chisme_ia(self, label_articulo):
-        """Convierte un tema difícil en un chisme de pasillo sin alucinar."""
-        # Buscamos el contexto en el mapa actual para que la IA no invente
-        contexto = self.sections_map.get(self.active_section_name, "Normativa General")
+        """Genera chisme de alto voltaje con lenguaje de pasillo."""
+        contenido_norma = self.sections_map.get(self.active_section_name, "Normativa General")
         
         prompt_chismosa = f"""
-        ACTÚA COMO UNA 'CHISMOSA JURÍDICA' EXPERTA Y DIVERTIDA. 
-        Misión: Cuenta un chisme corto (máximo 3 párrafos) sobre el tema: {label_articulo}.
-        
-        REGLAS DE ORO:
-        1. Usa un título con emojis de chisme.
-        2. Tono informal de pasillo de juzgado/cafetería, pero que explique la lógica de la norma.
-        3. Al final, escribe: '📍 EL VEREDICTO (Moraleja)' con una frase estilo Esopo que clave el conocimiento técnico.
-        
-        FUENTE TÉCNICA (Cíñete a esto): {contexto[:1500]}
+        ERES 'LA SOMBRA DEL PALACIO', la persona que lleva 30 años escuchando los secretos más oscuros en los pasillos de los juzgados y el Capitolio en Colombia. 
+
+        TU MISIÓN: Contar un chisme REAL o una FICCIÓN JURÍDICA tan creíble que duela, sobre el tema: {label_articulo}.
+
+        REGLAS DE ORO (PARA QUE SEA CHISME DE VERDAD):
+        1. 🚫 PROHIBIDO empezar con "Hola", "Este es un chisme" o "Aquí tienes la historia".
+        2. ⚡ EMPIEZA DIRECTO CON EL DRAMA. Ejemplos: "¡No se imaginan la que armó un abogado la semana pasada por puro ignorante...!", "¿Supieron del magistrado que casi pierde el puesto por...?", "¡Mijitos, se prendió el ventilador en la secretaría!".
+        3. 🗣️ USA LENGUAJE COLOQUIAL LEGAL COLOMBIANO: "la embarrada", "el chicharrón", "le bajaron el dedo", "le metieron un mico", "se le embolató la vuelta".
+        4. 📖 LA ESTRUCTURA DEBE SER:
+           - Un título corto y venenoso con emojis.
+           - El relato (máximo 3 párrafos cortos).
+           - Una sección final llamada '📍 EL VEREDICTO' que sea la moraleja técnica, pero con tono de "te lo dije".
+
+        CONTEXTO TÉCNICO (Para no decir mentiras): {contenido_norma[:1200]}
         """
         try:
             if self.provider == "Google":
-                res = self.model.generate_content(prompt_chismosa)
-                return res.text
-            return "¡Se cayó el sistema en el juzgado! No hay chisme hoy."
+                return self.model.generate_content(prompt_chismosa).text
+            return "¡Se cortó la luz en la cafetería! No hay chisme."
         except:
-            return "Chisme bajo reserva sumarial. ¡Vuelve al combate!"
-
+            return "¡Shhh! Nos están escuchando. Vuelve al combate mejor."
 # ### --- FIN PARTE 4 ---
 # ### --- INICIO PARTE 5: BARRA LATERAL (SIDEBAR Y SETUP) ---
 # ==========================================
@@ -1589,12 +1591,20 @@ if st.session_state.page == 'game':
 
     # B. Interfaz de Lectura del Chisme
     if st.session_state.estado_pausa == "chisme":
-        st.markdown(st.session_state.chisme_actual)
+        # Envolvemos el chisme en un div con estilo de letra grande
+        st.markdown(f"""
+            <div style="font-size: 32px; line-height: 1.3; font-family: 'Georgia', serif; color: #1E1E1E;">
+                {st.session_state.chisme_actual}
+            </div>
+        """, unsafe_allow_html=True)
+        
+        st.write("") # Espacio
         st.divider()
-        if st.button("🚀 Ya me enteré, ¡volver al combate!", use_container_width=True):
+        
+        if st.button("🚀 YA ME ENTERÉ DE TODO, ¡VOLVER AL COMBATE!", use_container_width=True):
             st.session_state.estado_pausa = "none"
             st.rerun()
-        st.stop() # Bloqueo mientras lee el chisme
+        st.stop()
 
     subtitulo = f"SECCIÓN: {engine.active_section_name}" if engine.active_section_name != "Todo el Documento" else "MODO: GENERAL"
     
