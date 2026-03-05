@@ -1058,39 +1058,47 @@ class LegalEngineTITAN:
 
 # --- 🚀 FUNCIÓN COMPLETA: GENERADOR DE PAUSA ACTIVA (CHISME REAL Y ACTUAL) ---
     def generar_chisme_ia(self, label_articulo):
-        """Genera un chisme de pasillo basado en escándalos reales y actuales de Colombia."""
+        """Genera un chisme de pasillo aleatorio y actual."""
+        import random
         
-        # 1. Recuperamos el texto del PDF para que la IA no pierda el norte técnico
         contexto = self.sections_map.get(self.active_section_name, "Normativa General")
         
-        # 2. El Prompt Maestro: Mezcla de ley, chisme de oficina y noticias de hoy
+        # 🎰 LA RULETA: Obligamos a la IA a cambiar de tema cada vez
+        temas_frescos = [
+            "un lío reciente con un Alcalde o Gobernador",
+            "un escándalo en el Congreso de la República",
+            "una tutela o fallo polémico de las Altas Cortes",
+            "un chicharrón con contratos en un Ministerio",
+            "una metida de pata de un alto funcionario público",
+            "un caso viral de corrupción regional"
+        ]
+        tema_elegido = random.choice(temas_frescos)
+        
         prompt_chismosa = f"""
-        ACTÚA COMO UN COMPAÑERO DE LA RAMA JUDICIAL en una pausa para café en un juzgado colombiano.
-        Misión: Contar un chisme o escándalo REAL Y ACTUAL de Colombia (noticias de los últimos meses o años) que se relacione directamente con: {label_articulo}.
+        ACTÚA COMO UN COMPAÑERO DE LA RAMA JUDICIAL en una pausa para café.
+        Misión: Contar un chisme o escándalo REAL Y ACTUAL de Colombia relacionado con: {label_articulo}.
 
-        REGLAS DE ORO (ESTILO RADIO-PASILLO ACTUAL):
-        1. 🗞️ ACTUALIDAD PURA: Usa escándalos reales que hayan salido en prensa (ej: el lío de la UNGRD, los carrotanques, chicharrones en la Fiscalía, o la última tutela famosa que falló la Corte). Menciona nombres o entidades si es necesario.
-        2. ☕ TONO DE CAFETERÍA: Cuéntalo como si me estuvieras poniendo al tanto de la movida nacional mientras tomamos un tinto. Nada de lenguaje acartonado.
-        3. ✂️ BREVEDAD: Máximo 3 párrafos muy cortos. Es una pausa, no una lectura de sentencia.
-        4. 🗣️ JERGA JUDICIAL: Usa términos como "sustanciar", "se le embolató", "el chicharrón", "meter el mico".
-        5. 📖 ESTRUCTURA OBLIGATORIA:
-           - Título: ☕ Nota de pasillo: [Tema de la noticia].
-           - El cuento: La "comidilla" de la oficina sobre ese caso real.
-           - 📍 EL VEREDICTO: Una sola frase que explique por qué ese escándalo prueba que el artículo {label_articulo} es tan importante.
+        REGLAS DE ORO:
+        1. 🚫 PROHIBIDO HABLAR DE LA UNGRD O CARROTANQUES. Búscate otro chisme.
+        2. 🎯 ENFOQUE OBLIGATORIO: El chisme debe tratar sobre {tema_elegido}.
+        3. 🗞️ ACTUALIDAD: Usa noticias reales de los últimos meses. Menciona entidades o cargos reales.
+        4. ☕ ESTILO RELAJADO: Tono de pasillo, corto y directo. (Máximo 3 párrafos).
+        5. 📖 ESTRUCTURA:
+           - Título: ☕ Nota de pasillo: [Tema].
+           - El bochinche.
+           - 📍 EL VEREDICTO: Una línea técnica sobre la norma.
 
-        FUENTE TÉCNICA (Para no decir mentiras legales): {contexto[:1200]}
+        FUENTE TÉCNICA: {contexto[:1200]}
         """
 
         try:
             if self.provider == "Google":
-                # Llamada a Gemini para que use su base de datos de noticias
                 res = self.model.generate_content(prompt_chismosa)
-                # Limpiamos el texto de asteriscos y basura de formato
-                texto_limpio = res.text.replace("*", "").replace("#", "")
-                return texto_limpio
-            return "☕ ¡Se acabó el tinto! No hay chisme disponible."
+                return res.text.replace("*", "").replace("#", "")
+            return "☕ ¡Se acabó el tinto!"
         except Exception as e:
-            return f"El chisme está en reserva sumarial. (Error: {str(e)})"
+            return "El chisme está en reserva sumarial."
+
 # ### --- FIN PARTE 4 ---
 # ### --- INICIO PARTE 5: BARRA LATERAL (SIDEBAR Y SETUP) ---
 # ==========================================
@@ -1599,19 +1607,33 @@ if st.session_state.page == 'game':
 
     # B. Interfaz de Lectura del Chisme
     if st.session_state.estado_pausa == "chisme":
-        # Envolvemos el chisme en un div con estilo de letra grande
+        texto_chisme = st.session_state.chisme_actual.replace("📍 EL VEREDICTO:", "<br><br><strong style='color: #d35400;'>📍 EL VEREDICTO:</strong>")
+        
         st.markdown(f"""
-            <div style="font-size: 32px; line-height: 1.3; font-family: 'Georgia', serif; color: #1E1E1E;">
-                {st.session_state.chisme_actual}
+            <div style="font-size: 32px; line-height: 1.3; font-family: 'Georgia', serif; color: #2c3e50; 
+                        background-color: #fdf5e6; padding: 35px; border-radius: 20px; 
+                        border-left: 12px solid #d35400; box-shadow: 5px 5px 15px rgba(0,0,0,0.05);">
+                {texto_chisme}
             </div>
         """, unsafe_allow_html=True)
         
-        st.write("") # Espacio
-        st.divider()
+        st.write("") 
         
-        if st.button("🚀 YA ME ENTERÉ DE TODO, ¡VOLVER AL COMBATE!", use_container_width=True):
-            st.session_state.estado_pausa = "none"
-            st.rerun()
+        # 🎛️ BOTONES INTERACTIVOS
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("🔄 ¡ESTÁ MUY BUENO! DAME OTRO CHISME", use_container_width=True):
+                # Volvemos a llamar a la función (la ruleta elegirá otro tema)
+                # Usamos el tema general actual para no perder el hilo
+                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{engine.clean_label(engine.thematic_axis)}]")
+                st.rerun()
+                
+        with col2:
+            if st.button("🚀 VOLVER AL COMBATE", use_container_width=True):
+                st.session_state.estado_pausa = "none"
+                st.rerun()
+                
         st.stop()
 
     subtitulo = f"SECCIÓN: {engine.active_section_name}" if engine.active_section_name != "Todo el Documento" else "MODO: GENERAL"
