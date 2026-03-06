@@ -1057,39 +1057,51 @@ class LegalEngineTITAN:
         return {"error": "Saturado."}
 
 # --- 🚀 FUNCIÓN COMPLETA: GENERADOR DE PAUSA ACTIVA (CHISME REAL Y ACTUAL) ---
-    def generar_chisme_ia(self, label_articulo):
-        """Genera un chisme de pasillo aleatorio y actual."""
+    def generar_chisme_ia(self, label_articulo, tipo="cronica"):
+        """Genera un chisme de pasillo según la personalidad elegida (Crónica o Farándula)."""
         import random
-        
         contexto = self.sections_map.get(self.active_section_name, "Normativa General")
         
-        # 🎰 LA RULETA: Obligamos a la IA a cambiar de tema cada vez
-        temas_frescos = [
-            "un lío reciente con un Alcalde o Gobernador",
-            "un escándalo en el Congreso de la República",
-            "una tutela o fallo polémico de las Altas Cortes",
-            "un chicharrón con contratos en un Ministerio",
-            "una metida de pata de un alto funcionario público",
-            "un caso viral de corrupción regional"
-        ]
-        tema_elegido = random.choice(temas_frescos)
-        
-        prompt_chismosa = f"""
-        ACTÚA COMO UN COMPAÑERO DE LA RAMA JUDICIAL en una pausa para café.
-        Misión: Contar un chisme o escándalo REAL Y ACTUAL de Colombia relacionado con: {label_articulo}.
+        if tipo == "cronica":
+            # 🏛️ PERFIL 1: LA SECRETARIA / CRONISTA JUDICIAL (CHISME SERIO)
+            temas_politicos = ["un Alcalde o Gobernador", "el Congreso", "las Altas Cortes", "un Ministerio o Secretaría", "una entidad de salud o control"]
+            tema_elegido = random.choice(temas_politicos)
+            
+            prompt_chismosa = f"""
+            ACTÚA COMO UN CRONISTA JUDICIAL O SECRETARIO DE JUZGADO EXPERIMENTADO.
+            Misión: Contar un CHISME o BOCHINCHE REAL y actual de Colombia sobre {tema_elegido} relacionado con: {label_articulo}. 
+            Ojo: Usa formato de crónica, pero sigue siendo un chisme de pasillo para entretener.
 
-        REGLAS DE ORO:
-        1. 🚫 PROHIBIDO HABLAR DE LA UNGRD O CARROTANQUES. Búscate otro chisme.
-        2. 🎯 ENFOQUE OBLIGATORIO: El chisme debe tratar sobre {tema_elegido}.
-        3. 🗞️ ACTUALIDAD: Usa noticias reales de los últimos meses. Menciona entidades o cargos reales.
-        4. ☕ ESTILO RELAJADO: Tono de pasillo, corto y directo. (Máximo 3 párrafos).
-        5. 📖 ESTRUCTURA:
-           - Título: ☕ Nota de pasillo: [Tema].
-           - El bochinche.
-           - 📍 EL VEREDICTO: Una línea técnica sobre la norma.
+            REGLAS DE ORO (LA FÓRMULA DE 5 PASOS):
+            1. 🪝 Gancho: Abre preguntando de forma directa (ej: "¿Supiste el chicharrón que se destapó en...?").
+            2. 📖 Historia: Cuenta el contexto rápido de qué estaba pasando.
+            3. 🔄 Giro: El momento del descubrimiento (el diploma falso, el contrato torcido, el mico en la ley).
+            4. 😱 Reacción: Un comentario humano y natural ("Uno se pregunta cómo...", "Así como lo oyes").
+            5. 📍 EL VEREDICTO: Una línea final obligatoria explicando cómo este caso real demuestra la importancia del artículo {label_articulo}.
 
-        FUENTE TÉCNICA: {contexto[:1200]}
-        """
+            TONO: Profesional pero conversacional y chismoso. 🚫 PROHIBIDO HABLAR DE LA UNGRD O CARROTANQUES.
+            FUENTE TÉCNICA: {contexto[:1200]}
+            """
+        else:
+            # 💅 PERFIL 2: LA PASANTE DE FARÁNDULA (CHISME RELAJADO)
+            temas_farandula = ["un cantante famoso (vallenato, popular o reguetón)", "un influencer o streamer reconocido", "un actor o actriz de televisión", "un participante de reality show"]
+            tema_elegido = random.choice(temas_farandula)
+            
+            prompt_chismosa = f"""
+            ACTÚA COMO UNA PASANTE DE JUZGADO JOVEN, FRESCA Y AMANTE DE LA FARÁNDULA COLOMBIANA.
+            Misión: Contar un CHISME REAL de farándula (tutelas, demandas, escándalos de famosos) relacionado con: {label_articulo}.
+
+            REGLAS DE ORO:
+            1. 🎯 ENFOQUE: El chisme debe ser sobre {tema_elegido} que haya tenido un enredo legal real.
+            2. 🗣️ TONO: Eres natural, fresca. Usa un "ajá" o un "nojoda" SÓLO una vez cuando la historia se ponga muy indignante o buena. 
+            3. 🧠 SÍNDROME DEL CHAPULÍN: Es OBLIGATORIO que intentes decir un dicho popular colombiano y cruces los cables, equivocándote de forma graciosa (ej: "ahí te dejé el baño en el agua", "el que ríe de último, no entiende el chiste", "camarón que se duerme... lo meten en tutela").
+            4. 📖 ESTRUCTURA:
+               - Título: 💅 Nota de pasillo: [Tema farandulero]
+               - El chisme contado de forma relajada.
+               - 📍 EL VEREDICTO: Una línea conectando el chisme con el artículo {label_articulo} ("O sea, la ley dice que...").
+
+            FUENTE TÉCNICA: {contexto[:1200]}
+            """
 
         try:
             if self.provider == "Google":
@@ -1619,18 +1631,24 @@ if st.session_state.page == 'game':
         
         st.write("") 
         
-        # 🎛️ BOTONES INTERACTIVOS
-        col1, col2 = st.columns(2)
+        # 🎛️ EL MULTIVERSO DEL CHISME (3 BOTONES)
+        col1, col2, col3 = st.columns([1, 1, 1])
         
         with col1:
-            if st.button("🔄 ¡ESTÁ MUY BUENO! DAME OTRO CHISME", use_container_width=True):
-                # Volvemos a llamar a la función (la ruleta elegirá otro tema)
-                # Usamos el tema general actual para no perder el hilo
-                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{engine.clean_label(engine.thematic_axis)}]")
+            if st.button("🔄 ¡OTRO CHISME SERIO (CRÓNICA)!", use_container_width=True):
+                # Genera una nueva Crónica Judicial sin salir de la pausa
+                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{engine.clean_label(engine.thematic_axis)}]", tipo="cronica")
                 st.rerun()
                 
         with col2:
+            if st.button("💅 ¡OTRO CHISME DE FARÁNDULA!", use_container_width=True):
+                # Genera un nuevo chisme de Farándula sin salir de la pausa
+                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{engine.clean_label(engine.thematic_axis)}]", tipo="farandula")
+                st.rerun()
+
+        with col3:
             if st.button("🚀 VOLVER AL COMBATE", use_container_width=True):
+                # Cierra la pausa y vuelve a las preguntas
                 st.session_state.estado_pausa = "none"
                 st.rerun()
                 
