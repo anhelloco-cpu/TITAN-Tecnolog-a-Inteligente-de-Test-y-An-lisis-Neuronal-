@@ -1626,27 +1626,12 @@ if st.session_state.page == 'game':
 
     # B. Interfaz de Lectura del Chisme
         if st.session_state.estado_pausa == "chisme":
-        texto_chisme = st.session_state.chisme_actual.replace("📍 EL VEREDICTO:", "<br><br><strong style='color: #d35400;'>📍 EL VEREDICTO:</strong>")
-        
-        st.markdown(f"""
-            <div style="font-size: 32px; line-height: 1.3; font-family: 'Georgia', serif; color: #2c3e50; 
-                        background-color: #fdf5e6; padding: 35px; border-radius: 20px; 
-                        border-left: 12px solid #d35400; box-shadow: 5px 5px 15px rgba(0,0,0,0.05);">
-                {texto_chisme}
-            </div>
-        """, unsafe_allow_html=True)
-        
-        st.write("") 
-        
-        # --- 🧠 SELECTOR INTELIGENTE DE ARTÍCULOS ---
-        if st.session_state.estado_pausa == "chisme":
         
         # --- 🧠 SELECTOR INTELIGENTE DE ARTÍCULOS EN CASCADA ---
         def obtener_siguiente_articulo():
             import random
             todos = list(engine.sections_map.keys())
             
-            # (Si tus listas de control en tu código tienen otros nombres, ajústalos aquí)
             rojos = st.session_state.get('lista_roja', [])     
             verdes = st.session_state.get('lista_verde', [])   
             no_vistos = [art for art in todos if art not in rojos and art not in verdes]
@@ -1702,7 +1687,7 @@ if st.session_state.page == 'game':
 
         # 4. Mostramos el CIERRE (La moraleja)
         if texto_cierre:
-             st.markdown(f"""
+            st.markdown(f"""
             <div style="font-size: 26px; line-height: 1.3; font-family: 'Georgia', serif; color: #2c3e50; 
                         background-color: #fff3e0; padding: 20px; border-radius: 10px; margin-top: 15px;
                         border: 2px dashed #d35400;">
