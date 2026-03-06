@@ -1625,7 +1625,7 @@ if st.session_state.page == 'game':
         st.stop() # Bloqueo para que no cargue la pregunta debajo
 
     # B. Interfaz de Lectura del Chisme
-        if st.session_state.estado_pausa == "chisme":
+    if st.session_state.estado_pausa == "chisme":
         
         # --- 🧠 SELECTOR INTELIGENTE DE ARTÍCULOS EN CASCADA ---
         def obtener_siguiente_articulo():
