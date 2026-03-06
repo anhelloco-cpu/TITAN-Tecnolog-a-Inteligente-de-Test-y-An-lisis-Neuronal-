@@ -1631,28 +1631,68 @@ if st.session_state.page == 'game':
         
         st.write("") 
         
-        # 🎛️ EL MULTIVERSO DEL CHISME (3 BOTONES)
+        # --- 🧠 SELECTOR INTELIGENTE DE ARTÍCULOS ---
+        def obtener_siguiente_articulo():
+            import random
+            # 1. Todos los artículos del PDF cargado
+            todos = list(engine.sections_map.keys())
+            
+            # 2. Buscamos tus listas de control (⚠️ Nota: si en tu código las listas 
+            # de errores/aciertos se llaman distinto, cambia estos nombres)
+            rojos = st.session_state.get('lista_roja', [])     # Los que fallaste
+            verdes = st.session_state.get('lista_verde', [])   # Los que dominaste
+            no_vistos = [art for art in todos if art not in rojos and art not in verdes]
+            
+            # 3. Memoria de la pausa actual (para no repetir el mismo chisme en esta sentada)
+            if "chismes_vistos_pausa" not in st.session_state:
+                # Metemos el artículo actual para que no lo repita de inmediato
+                st.session_state.chismes_vistos_pausa = [engine.clean_label(engine.thematic_axis)]
+                
+            # Filtramos los que ya leímos hoy
+            rojos_libres = [a for a in rojos if a not in st.session_state.chismes_vistos_pausa]
+            no_vistos_libres = [a for a in no_vistos if a not in st.session_state.chismes_vistos_pausa]
+            verdes_libres = [a for a in verdes if a not in st.session_state.chismes_vistos_pausa]
+            
+            # 4. LA CASCADA (Tu regla de oro)
+            if rojos_libres:
+                elegido = random.choice(rojos_libres)
+            elif no_vistos_libres:
+                elegido = random.choice(no_vistos_libres)
+            elif verdes_libres:
+                elegido = random.choice(verdes_libres)
+            else:
+                # Si ya le diste al botón tantas veces que viste todo el PDF, reiniciamos
+                st.session_state.chismes_vistos_pausa = []
+                elegido = random.choice(todos)
+                
+            # Lo anotamos como visto
+            st.session_state.chismes_vistos_pausa.append(elegido)
+            return elegido
+
+        # 🎛️ EL MULTIVERSO DE LA PAUSA (3 BOTONES)
         col1, col2, col3 = st.columns([1, 1, 1])
         
         with col1:
-            if st.button("🔄 ¡OTRO CHISME SERIO (CRÓNICA)!", use_container_width=True):
-                # Genera una nueva Crónica Judicial sin salir de la pausa
-                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{engine.clean_label(engine.thematic_axis)}]", tipo="cronica")
+            if st.button("🔄 ¡OTRO CASO DE PASILLO!", use_container_width=True):
+                nuevo_art = obtener_siguiente_articulo()
+                # Le pasamos el nuevo artículo elegido por la cascada
+                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{nuevo_art}]", tipo="cronica")
                 st.rerun()
                 
         with col2:
-            if st.button("💅 ¡OTRO CHISME DE FARÁNDULA!", use_container_width=True):
-                # Genera un nuevo chisme de Farándula sin salir de la pausa
-                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{engine.clean_label(engine.thematic_axis)}]", tipo="farandula")
+            if st.button("💅 ¡OTRO DE FARÁNDULA!", use_container_width=True):
+                nuevo_art = obtener_siguiente_articulo()
+                # Le pasamos el nuevo artículo elegido por la cascada
+                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{nuevo_art}]", tipo="farandula")
                 st.rerun()
 
         with col3:
             if st.button("🚀 VOLVER AL COMBATE", use_container_width=True):
-                # Cierra la pausa y vuelve a las preguntas
                 st.session_state.estado_pausa = "none"
+                # Limpiamos la memoria para que en el próximo descanso empiece fresco
+                if "chismes_vistos_pausa" in st.session_state:
+                    del st.session_state["chismes_vistos_pausa"]
                 st.rerun()
-                
-        st.stop()
 
     subtitulo = f"SECCIÓN: {engine.active_section_name}" if engine.active_section_name != "Todo el Documento" else "MODO: GENERAL"
     
