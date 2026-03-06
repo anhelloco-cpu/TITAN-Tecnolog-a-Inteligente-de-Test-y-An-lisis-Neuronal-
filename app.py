@@ -1058,58 +1058,65 @@ class LegalEngineTITAN:
 
 # --- 🚀 FUNCIÓN COMPLETA: GENERADOR DE PAUSA ACTIVA (CHISME REAL Y ACTUAL) ---
     def generar_chisme_ia(self, label_articulo, tipo="cronica"):
-        """Genera un chisme de pasillo según la personalidad elegida (Crónica o Farándula)."""
+        """Genera una pausa activa según la personalidad elegida (Oficina o Farándula)."""
         import random
         contexto = self.sections_map.get(self.active_section_name, "Normativa General")
         
         if tipo == "cronica":
-            # 🏛️ PERFIL 1: LA SECRETARIA / CRONISTA JUDICIAL (CHISME SERIO)
-            temas_politicos = ["un Alcalde o Gobernador", "el Congreso", "las Altas Cortes", "un Ministerio o Secretaría", "una entidad de salud o control"]
+            # 🏛️ PERFIL 1: EL COMPAÑERO DE OFICINA (SECRETO CIVIL)
+            temas_politicos = ["un Alcalde", "un Senador", "un Ministro", "una entidad pública", "un contratista"]
             tema_elegido = random.choice(temas_politicos)
             
             prompt_chismosa = f"""
-            ACTÚA COMO UN CRONISTA JUDICIAL O SECRETARIO DE JUZGADO EXPERIMENTADO.
-            Misión: Contar un CHISME o BOCHINCHE REAL y actual de Colombia sobre {tema_elegido} relacionado con: {label_articulo}. 
-            Ojo: Usa formato de crónica, pero sigue siendo un chisme de pasillo para entretener.
+            ACTÚA COMO UN COMPAÑERO DE OFICINA NORMAL Y RESERVADO. (NO eres abogado ni trabajas en un juzgado).
+            Misión: Contar un caso REAL de Colombia sobre {tema_elegido}.
+            
+            REGLAS INQUEBRANTABLES:
+            1. 🎯 SOLO UN ARTÍCULO: Conecta la historia EXCLUSIVAMENTE con el {label_articulo}. Ignora absolutamente todos los demás artículos del texto.
+            2. 🗣️ TONO DE SUSURRO: Cuéntalo como si fuera un secreto absoluto. 🚫 Cero preguntas de animador.
+            3. 🧩 ESTRUCTURA DE 3 PARTES: Divide tu respuesta usando EXACTAMENTE el separador ||| entre cada bloque.
+               
+               - PARTE 1 (Gancho ultracorto): Empieza EXACTAMENTE con "Imagínate tú..." y cuenta el problema en 1 párrafo.
+               |||
+               - PARTE 2 (Ampliación): Cuenta el desenlace o detalles jugosos del mismo caso en 1 párrafo.
+               |||
+               - PARTE 3 (Cierre): Termina SÓLO con la frase exacta "📌 Para que no te pase:" seguida de la explicación de la norma en 1 línea.
 
-            REGLAS DE ORO (LA FÓRMULA DE 5 PASOS):
-            1. 🪝 Gancho: Abre preguntando de forma directa (ej: "¿Supiste el chicharrón que se destapó en...?").
-            2. 📖 Historia: Cuenta el contexto rápido de qué estaba pasando.
-            3. 🔄 Giro: El momento del descubrimiento (el diploma falso, el contrato torcido, el mico en la ley).
-            4. 😱 Reacción: Un comentario humano y natural ("Uno se pregunta cómo...", "Así como lo oyes").
-            5. 📍 EL VEREDICTO: Una línea final obligatoria explicando cómo este caso real demuestra la importancia del artículo {label_articulo}.
-
-            TONO: Profesional pero conversacional y chismoso. 🚫 PROHIBIDO HABLAR DE LA UNGRD O CARROTANQUES.
-            FUENTE TÉCNICA: {contexto[:1200]}
+            🚫 PROHIBIDO: Usar las palabras "chisme", "veredicto", "crónica", poner títulos a las partes o saludar.
+            TEXTO: {contexto[:800]}
             """
         else:
-            # 💅 PERFIL 2: LA PASANTE DE FARÁNDULA (CHISME RELAJADO)
-            temas_farandula = ["un cantante famoso (vallenato, popular o reguetón)", "un influencer o streamer reconocido", "un actor o actriz de televisión", "un participante de reality show"]
+            # 💅 PERFIL 2: LA AMIGA FARANDULERA Y RELAJADA
+            temas_farandula = ["un cantante famoso", "un influencer", "un actor", "un reality show"]
             tema_elegido = random.choice(temas_farandula)
             
             prompt_chismosa = f"""
-            ACTÚA COMO UNA PASANTE DE JUZGADO JOVEN, FRESCA Y AMANTE DE LA FARÁNDULA COLOMBIANA.
-            Misión: Contar un CHISME REAL de farándula (tutelas, demandas, escándalos de famosos) relacionado con: {label_articulo}.
+            ACTÚA COMO UNA AMIGA RELAJADA, JOVEN Y AMANTE DE LA FARÁNDULA. (NO trabajas en un juzgado).
+            Misión: Contar un caso REAL de farándula colombiana en secreto.
 
-            REGLAS DE ORO:
-            1. 🎯 ENFOQUE: El chisme debe ser sobre {tema_elegido} que haya tenido un enredo legal real.
-            2. 🗣️ TONO: Eres natural, fresca. Usa un "ajá" o un "nojoda" SÓLO una vez cuando la historia se ponga muy indignante o buena. 
-            3. 🧠 SÍNDROME DEL CHAPULÍN: Es OBLIGATORIO que intentes decir un dicho popular colombiano y cruces los cables, equivocándote de forma graciosa (ej: "ahí te dejé el baño en el agua", "el que ríe de último, no entiende el chiste", "camarón que se duerme... lo meten en tutela").
-            4. 📖 ESTRUCTURA:
-               - Título: 💅 Nota de pasillo: [Tema farandulero]
-               - El chisme contado de forma relajada.
-               - 📍 EL VEREDICTO: Una línea conectando el chisme con el artículo {label_articulo} ("O sea, la ley dice que...").
+            REGLAS INQUEBRANTABLES:
+            1. 🎯 SOLO UN ARTÍCULO: Conecta la historia EXCLUSIVAMENTE con el {label_articulo}. Ignora el resto del texto.
+            2. 🗣️ TONO DE SUSURRO: Cuéntalo bajito, natural, con un "ajá" o "nojoda". 🚫 Cero preguntas.
+            3. 🧠 CHAPULÍN: Cruza los cables con un dicho popular (ej: "ahí te dejé el baño en el agua").
+            4. 🧩 ESTRUCTURA DE 3 PARTES: Divide tu respuesta usando EXACTAMENTE el separador ||| entre cada bloque.
+               
+               - PARTE 1 (Gancho ultracorto): Empieza EXACTAMENTE con "📱 El bololó del día: [Tema]" y cuenta el problema en 1 párrafo.
+               |||
+               - PARTE 2 (Ampliación): Cuenta cómo terminó el bololó o más detalles en 1 párrafo.
+               |||
+               - PARTE 3 (Cierre): Termina SÓLO con la frase exacta "💡 Pa' que te quede claro:" seguida de la explicación legal en 1 línea.
 
-            FUENTE TÉCNICA: {contexto[:1200]}
+            🚫 PROHIBIDO: Usar las palabras "chisme", "veredicto", o saludar. No pongas subtítulos a las partes.
+            TEXTO: {contexto[:800]}
             """
 
         try:
             if self.provider == "Google":
                 res = self.model.generate_content(prompt_chismosa)
                 return res.text.replace("*", "").replace("#", "")
-            return "☕ ¡Se acabó el tinto!"
+            return "☕ ¡Se acabó el café!"
         except Exception as e:
-            return "El chisme está en reserva sumarial."
+            return "La historia está en secreto."
 
 # ### --- FIN PARTE 4 ---
 # ### --- INICIO PARTE 5: BARRA LATERAL (SIDEBAR Y SETUP) ---
@@ -1632,28 +1639,25 @@ if st.session_state.page == 'game':
         st.write("") 
         
         # --- 🧠 SELECTOR INTELIGENTE DE ARTÍCULOS ---
+        if st.session_state.estado_pausa == "chisme":
+        
+        # --- 🧠 SELECTOR INTELIGENTE DE ARTÍCULOS EN CASCADA ---
         def obtener_siguiente_articulo():
             import random
-            # 1. Todos los artículos del PDF cargado
             todos = list(engine.sections_map.keys())
             
-            # 2. Buscamos tus listas de control (⚠️ Nota: si en tu código las listas 
-            # de errores/aciertos se llaman distinto, cambia estos nombres)
-            rojos = st.session_state.get('lista_roja', [])     # Los que fallaste
-            verdes = st.session_state.get('lista_verde', [])   # Los que dominaste
+            # (Si tus listas de control en tu código tienen otros nombres, ajústalos aquí)
+            rojos = st.session_state.get('lista_roja', [])     
+            verdes = st.session_state.get('lista_verde', [])   
             no_vistos = [art for art in todos if art not in rojos and art not in verdes]
             
-            # 3. Memoria de la pausa actual (para no repetir el mismo chisme en esta sentada)
             if "chismes_vistos_pausa" not in st.session_state:
-                # Metemos el artículo actual para que no lo repita de inmediato
                 st.session_state.chismes_vistos_pausa = [engine.clean_label(engine.thematic_axis)]
                 
-            # Filtramos los que ya leímos hoy
             rojos_libres = [a for a in rojos if a not in st.session_state.chismes_vistos_pausa]
             no_vistos_libres = [a for a in no_vistos if a not in st.session_state.chismes_vistos_pausa]
             verdes_libres = [a for a in verdes if a not in st.session_state.chismes_vistos_pausa]
             
-            # 4. LA CASCADA (Tu regla de oro)
             if rojos_libres:
                 elegido = random.choice(rojos_libres)
             elif no_vistos_libres:
@@ -1661,38 +1665,73 @@ if st.session_state.page == 'game':
             elif verdes_libres:
                 elegido = random.choice(verdes_libres)
             else:
-                # Si ya le diste al botón tantas veces que viste todo el PDF, reiniciamos
                 st.session_state.chismes_vistos_pausa = []
                 elegido = random.choice(todos)
                 
-            # Lo anotamos como visto
             st.session_state.chismes_vistos_pausa.append(elegido)
             return elegido
 
-        # 🎛️ EL MULTIVERSO DE LA PAUSA (3 BOTONES)
-        col1, col2, col3 = st.columns([1, 1, 1])
+        # 1. Separamos las 3 partes gracias al código secreto |||
+        partes = st.session_state.chisme_actual.split("|||")
         
+        texto_principal = partes[0].strip() if len(partes) > 0 else "Hubo un error de comunicación..."
+        texto_ampliado = partes[1].strip() if len(partes) > 1 else ""
+        texto_cierre = partes[2].strip() if len(partes) > 2 else ""
+
+        # Pintamos la Moraleja con tus colores
+        texto_cierre = texto_cierre.replace("📌 Para que no te pase:", "<strong style='color: #d35400;'>📌 Para que no te pase:</strong>")
+        texto_cierre = texto_cierre.replace("💡 Pa' que te quede claro:", "<strong style='color: #d35400;'>💡 Pa' que te quede claro:</strong>")
+
+        # 2. Mostramos el GANCHO CORTICO
+        st.markdown(f"""
+            <div style="font-size: 30px; line-height: 1.3; font-family: 'Georgia', serif; color: #2c3e50; 
+                        background-color: #fdf5e6; padding: 30px; border-radius: 15px; 
+                        border-left: 10px solid #d35400; box-shadow: 3px 3px 10px rgba(0,0,0,0.05);">
+                {texto_principal}
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # 3. BOTÓN PARA AMPLIAR (Solo se muestra si la IA mandó la parte 2)
+        if texto_ampliado:
+            with st.expander("🔥 Échame el cuento completo..."):
+                st.markdown(f"""
+                    <div style="font-size: 24px; color: #444; background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
+                        {texto_ampliado}
+                    </div>
+                """, unsafe_allow_html=True)
+
+        # 4. Mostramos el CIERRE (La moraleja)
+        if texto_cierre:
+             st.markdown(f"""
+            <div style="font-size: 26px; line-height: 1.3; font-family: 'Georgia', serif; color: #2c3e50; 
+                        background-color: #fff3e0; padding: 20px; border-radius: 10px; margin-top: 15px;
+                        border: 2px dashed #d35400;">
+                {texto_cierre}
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.write("") 
+        
+        # 🎛️ BOTONES DE NAVEGACIÓN
+        col1, col2, col3 = st.columns([1, 1, 1])
         with col1:
             if st.button("🔄 ¡OTRO CASO DE PASILLO!", use_container_width=True):
                 nuevo_art = obtener_siguiente_articulo()
-                # Le pasamos el nuevo artículo elegido por la cascada
                 st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{nuevo_art}]", tipo="cronica")
                 st.rerun()
-                
         with col2:
             if st.button("💅 ¡OTRO DE FARÁNDULA!", use_container_width=True):
                 nuevo_art = obtener_siguiente_articulo()
-                # Le pasamos el nuevo artículo elegido por la cascada
                 st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{nuevo_art}]", tipo="farandula")
                 st.rerun()
-
         with col3:
             if st.button("🚀 VOLVER AL COMBATE", use_container_width=True):
                 st.session_state.estado_pausa = "none"
-                # Limpiamos la memoria para que en el próximo descanso empiece fresco
                 if "chismes_vistos_pausa" in st.session_state:
                     del st.session_state["chismes_vistos_pausa"]
                 st.rerun()
+        
+        st.stop()
 
     subtitulo = f"SECCIÓN: {engine.active_section_name}" if engine.active_section_name != "Todo el Documento" else "MODO: GENERAL"
     
