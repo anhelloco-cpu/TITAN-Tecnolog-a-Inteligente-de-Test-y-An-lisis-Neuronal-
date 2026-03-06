@@ -1625,7 +1625,7 @@ if st.session_state.page == 'game':
         st.stop() # Bloqueo para que no cargue la pregunta debajo
 
     # B. Interfaz de Lectura del Chisme
-    if st.session_state.estado_pausa == "chisme":
+        if st.session_state.estado_pausa == "chisme":
         texto_chisme = st.session_state.chisme_actual.replace("📍 EL VEREDICTO:", "<br><br><strong style='color: #d35400;'>📍 EL VEREDICTO:</strong>")
         
         st.markdown(f"""
