@@ -1058,55 +1058,75 @@ class LegalEngineTITAN:
 
 # --- 🚀 FUNCIÓN COMPLETA: GENERADOR DE PAUSA ACTIVA (CHISME REAL Y ACTUAL) ---
     def generar_chisme_ia(self, label_articulo, tipo="cronica"):
-        """Genera una pausa activa según la personalidad elegida (Oficina o Farándula)."""
+        """Genera una pausa activa (Chismes hiperbólicos o Historias de Éxito)."""
         import random
         contexto = self.sections_map.get(self.active_section_name, "Normativa General")
         
         if tipo == "cronica":
-            # 🏛️ PERFIL 1: EL COMPAÑERO DE OFICINA (SECRETO CIVIL)
-            temas_politicos = ["un Alcalde", "un Senador", "un Ministro", "una entidad pública", "un contratista"]
-            tema_elegido = random.choice(temas_politicos)
+            # 🏛️ PERFIL 1: OFICINA (EXAGERADO Y MENTIROSO)
+            temas = ["un Alcalde", "un Senador", "un Ministro", "una entidad pública", "un contratista"]
+            tema_elegido = random.choice(temas)
             
             prompt_chismosa = f"""
-            ACTÚA COMO UN COMPAÑERO DE OFICINA NORMAL Y RESERVADO. (NO eres abogado ni trabajas en un juzgado).
-            Misión: Contar un caso REAL de Colombia sobre {tema_elegido}.
+            ACTÚA COMO UN COMPAÑERO DE OFICINA SÚPER CHISMOSO Y EXAGERADO.
+            Misión: Contar un caso sobre {tema_elegido} relacionado EXCLUSIVAMENTE con el {label_articulo}.
             
             REGLAS INQUEBRANTABLES:
-            1. 🎯 SOLO UN ARTÍCULO: Conecta la historia EXCLUSIVAMENTE con el {label_articulo}. Ignora absolutamente todos los demás artículos del texto.
-            2. 🗣️ TONO DE SUSURRO: Cuéntalo como si fuera un secreto absoluto. 🚫 Cero preguntas de animador.
-            3. 🧩 ESTRUCTURA DE 3 PARTES: Divide tu respuesta usando EXACTAMENTE el separador ||| entre cada bloque.
+            1. 💣 HIPÉRBOLE TOTAL: Toma un caso real y EXAGÉRALO a niveles absurdos (mentiras divertidas, rumores locos).
+            2. 🗣️ SALVEDAD COLOQUIAL: Usa frases como "yo esto lo digo pero no lo sostengo", "dicen las malas lenguas", "yo no estaba ahí pero...", para lavarte las manos.
+            3. 🧩 ESTRUCTURA DE 3 PARTES (Usa el separador |||):
+               - PARTE 1: Empieza EXACTAMENTE con "Imagínate tú..." y suelta la bomba exagerada en 1 párrafo.
+               |||
+               - PARTE 2: Cuenta el desenlace absurdo en 1 párrafo.
+               |||
+               - PARTE 3: Termina SÓLO con "📌 Para que no te pase:" y una moraleja que conecte esta locura para ayudar a recordar el {label_articulo}.
                
-               - PARTE 1 (Gancho ultracorto): Empieza EXACTAMENTE con "Imagínate tú..." y cuenta el problema en 1 párrafo.
-               |||
-               - PARTE 2 (Ampliación): Cuenta el desenlace o detalles jugosos del mismo caso en 1 párrafo.
-               |||
-               - PARTE 3 (Cierre): Termina SÓLO con la frase exacta "📌 Para que no te pase:" seguida de la explicación de la norma en 1 línea.
-
-            🚫 PROHIBIDO: Usar las palabras "chisme", "veredicto", "crónica", poner títulos a las partes o saludar.
+            🚫 PROHIBIDO: Usar la palabra "chisme", "veredicto", o saludar.
             TEXTO: {contexto[:800]}
             """
-        else:
-            # 💅 PERFIL 2: LA AMIGA FARANDULERA Y RELAJADA
-            temas_farandula = ["un cantante famoso", "un influencer", "un actor", "un reality show"]
-            tema_elegido = random.choice(temas_farandula)
+            
+        elif tipo == "farandula":
+            # 💅 PERFIL 2: FARÁNDULA (EL BOLOLÓ EXAGERADO)
+            temas = ["un cantante famoso", "un influencer", "un actor", "un reality show"]
+            tema_elegido = random.choice(temas)
             
             prompt_chismosa = f"""
-            ACTÚA COMO UNA AMIGA RELAJADA, JOVEN Y AMANTE DE LA FARÁNDULA. (NO trabajas en un juzgado).
-            Misión: Contar un caso REAL de farándula colombiana en secreto.
+            ACTÚA COMO UNA AMIGA RELAJADA, AMANTE DE LA FARÁNDULA Y MUY EXAGERADA.
+            Misión: Contar un bololó sobre {tema_elegido} relacionado EXCLUSIVAMENTE con el {label_articulo}.
 
             REGLAS INQUEBRANTABLES:
-            1. 🎯 SOLO UN ARTÍCULO: Conecta la historia EXCLUSIVAMENTE con el {label_articulo}. Ignora el resto del texto.
-            2. 🗣️ TONO DE SUSURRO: Cuéntalo bajito, natural, con un "ajá" o "nojoda". 🚫 Cero preguntas.
-            3. 🧠 CHAPULÍN: Cruza los cables con un dicho popular (ej: "ahí te dejé el baño en el agua").
-            4. 🧩 ESTRUCTURA DE 3 PARTES: Divide tu respuesta usando EXACTAMENTE el separador ||| entre cada bloque.
-               
-               - PARTE 1 (Gancho ultracorto): Empieza EXACTAMENTE con "📱 El bololó del día: [Tema]" y cuenta el problema en 1 párrafo.
+            1. 💣 HIPÉRBOLE TOTAL: Exagera la realidad, inventa rumores gigantes sobre el caso.
+            2. 🗣️ SALVEDAD Y CHAPULÍN: Cruza dichos ("ahí te dejé el baño en el agua") y usa frases de "no me creas a mí pero...".
+            3. 🧩 ESTRUCTURA DE 3 PARTES (Usa el separador |||):
+               - PARTE 1: Empieza EXACTAMENTE con "📱 El bololó del día: [Tema]" y suelta el rumor exagerado.
                |||
-               - PARTE 2 (Ampliación): Cuenta cómo terminó el bololó o más detalles en 1 párrafo.
+               - PARTE 2: Cuenta los detalles locos en 1 párrafo.
                |||
-               - PARTE 3 (Cierre): Termina SÓLO con la frase exacta "💡 Pa' que te quede claro:" seguida de la explicación legal en 1 línea.
+               - PARTE 3: Termina SÓLO con "💡 Pa' que te quede claro:" y una moraleja que ayude a recordar el {label_articulo}.
 
-            🚫 PROHIBIDO: Usar las palabras "chisme", "veredicto", o saludar. No pongas subtítulos a las partes.
+            🚫 PROHIBIDO: Usar la palabra "chisme", o saludar.
+            TEXTO: {contexto[:800]}
+            """
+            
+        else:
+            # 🚀 PERFIL 3: HISTORIAS DE ÉXITO Y MOTIVACIÓN
+            temas = ["una empresa colombiana exitosa", "un líder mundial", "una marca reconocida", "un emprendedor"]
+            tema_elegido = random.choice(temas)
+            
+            prompt_chismosa = f"""
+            ACTÚA COMO UN MENTOR INSPIRADOR Y MOTIVACIONAL.
+            Misión: Contar una historia REAL Y CORTA de éxito sobre {tema_elegido}.
+
+            REGLAS INQUEBRANTABLES:
+            1. 🎯 ENFOQUE: La historia debe mostrar superación y conectar sutilmente con el espíritu del {label_articulo}.
+            2. 🧩 ESTRUCTURA DE 3 PARTES (Usa el separador |||):
+               - PARTE 1: Empieza EXACTAMENTE con "🚀 ¿Sabías que..." y cuenta el inicio difícil de la historia en 1 párrafo.
+               |||
+               - PARTE 2: Cuenta cómo lograron el éxito y superaron el obstáculo.
+               |||
+               - PARTE 3: Termina SÓLO con "🌟 La lección del éxito:" seguida de una frase motivacional corta que además te ayude a recordar la esencia del {label_articulo}.
+
+            🚫 PROHIBIDO: Usar lenguaje de chisme o juzgado.
             TEXTO: {contexto[:800]}
             """
 
@@ -1610,28 +1630,29 @@ if st.session_state.page == 'game':
     # A. Interfaz del Checkpoint
     if st.session_state.estado_pausa == "checkpoint":
         st.markdown(f"<h1 style='text-align: center;'>🏁 ¡Hito alcanzado: {perc}%!</h1>", unsafe_allow_html=True)
-        st.markdown("<h3 style='text-align: center;'>Te has ganado un chisme. ¿Lo quieres ahora o sigues en racha?</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center;'>Te has ganado un descanso. ¿Quieres ir a la sala de pausas o sigues en racha?</h3>", unsafe_allow_html=True)
+        
         c_ch, c_ra = st.columns(2)
-        if c_ch.button("☕ Tomar Pausa (Ver Chisme)", use_container_width=True):
-            # Elegimos un artículo de los fallados (en rojo) para que el chisme enseñe
-            articulo_c = random.choice(list(engine.failed_articles)) if engine.failed_articles else "la temática actual"
-            with st.spinner("🤫 Buscando el chisme en los pasillos..."):
-                st.session_state.chisme_actual = engine.generar_chisme_ia(articulo_c)
-                st.session_state.estado_pausa = "chisme"
+        
+        if c_ch.button("☕ Ir a la Sala de Pausas", use_container_width=True):
+            # LA MAGIA ESTÁ AQUÍ: Entramos a la pausa con la variable vacía para que salte el Menú
+            st.session_state.chisme_actual = "" 
+            st.session_state.estado_pausa = "chisme"
             st.rerun()
+            
         if c_ra.button("🔥 Seguir en Racha", use_container_width=True):
             st.session_state.estado_pausa = "none"
             st.rerun()
+            
         st.stop() # Bloqueo para que no cargue la pregunta debajo
 
     # B. Interfaz de Lectura del Chisme
     if st.session_state.estado_pausa == "chisme":
         
-        # --- 🧠 SELECTOR INTELIGENTE DE ARTÍCULOS EN CASCADA ---
+        # --- 🧠 SELECTOR INTELIGENTE EN CASCADA ---
         def obtener_siguiente_articulo():
             import random
             todos = list(engine.sections_map.keys())
-            
             rojos = st.session_state.get('lista_roja', [])     
             verdes = st.session_state.get('lista_verde', [])   
             no_vistos = [art for art in todos if art not in rojos and art not in verdes]
@@ -1643,12 +1664,9 @@ if st.session_state.page == 'game':
             no_vistos_libres = [a for a in no_vistos if a not in st.session_state.chismes_vistos_pausa]
             verdes_libres = [a for a in verdes if a not in st.session_state.chismes_vistos_pausa]
             
-            if rojos_libres:
-                elegido = random.choice(rojos_libres)
-            elif no_vistos_libres:
-                elegido = random.choice(no_vistos_libres)
-            elif verdes_libres:
-                elegido = random.choice(verdes_libres)
+            if rojos_libres: elegido = random.choice(rojos_libres)
+            elif no_vistos_libres: elegido = random.choice(no_vistos_libres)
+            elif verdes_libres: elegido = random.choice(verdes_libres)
             else:
                 st.session_state.chismes_vistos_pausa = []
                 elegido = random.choice(todos)
@@ -1656,18 +1674,52 @@ if st.session_state.page == 'game':
             st.session_state.chismes_vistos_pausa.append(elegido)
             return elegido
 
-        # 1. Separamos las 3 partes gracias al código secreto |||
+        # =========================================================
+        # 📍 FASE 1: LA ANTESALA (EL MENÚ DE ELECCIÓN)
+        # =========================================================
+        if "chisme_actual" not in st.session_state or st.session_state.chisme_actual == "":
+            st.markdown("""
+                <div style="text-align: center; padding: 40px; background-color: #fdf5e6; border-radius: 15px; border: 4px dashed #d35400; margin-bottom: 20px;">
+                    <h2 style="color: #d35400; font-family: 'Georgia', serif;">🛑 ¡TIEMPO FUERA! TE GANASTE UNA PAUSA</h2>
+                    <p style="font-size: 22px; color: #2c3e50;">Tu cerebro necesita un respiro. ¿Qué quieres hacer hoy?</p>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            col_m1, col_m2, col_m3 = st.columns(3)
+            with col_m1:
+                if st.button("☕ CHISME DE PASILLO", use_container_width=True):
+                    st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{obtener_siguiente_articulo()}]", tipo="cronica")
+                    st.rerun()
+            with col_m2:
+                if st.button("💅 DAME FARÁNDULA", use_container_width=True):
+                    st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{obtener_siguiente_articulo()}]", tipo="farandula")
+                    st.rerun()
+            with col_m3:
+                if st.button("💡 HISTORIA DE ÉXITO", use_container_width=True):
+                    st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{obtener_siguiente_articulo()}]", tipo="motivacion")
+                    st.rerun()
+                    
+            st.write("")
+            if st.button("🚀 SALTAR PAUSA Y VOLVER AL COMBATE", use_container_width=True):
+                st.session_state.estado_pausa = "none"
+                st.rerun()
+                
+            st.stop() # Detenemos aquí para esperar tu decisión
+
+        # =========================================================
+        # 📍 FASE 2 y 3: EL CONSUMO Y EL BUFFET LIBRE
+        # =========================================================
         partes = st.session_state.chisme_actual.split("|||")
-        
         texto_principal = partes[0].strip() if len(partes) > 0 else "Hubo un error de comunicación..."
         texto_ampliado = partes[1].strip() if len(partes) > 1 else ""
         texto_cierre = partes[2].strip() if len(partes) > 2 else ""
 
-        # Pintamos la Moraleja con tus colores
+        # Colorear Moralejas
         texto_cierre = texto_cierre.replace("📌 Para que no te pase:", "<strong style='color: #d35400;'>📌 Para que no te pase:</strong>")
         texto_cierre = texto_cierre.replace("💡 Pa' que te quede claro:", "<strong style='color: #d35400;'>💡 Pa' que te quede claro:</strong>")
+        texto_cierre = texto_cierre.replace("🌟 La lección del éxito:", "<strong style='color: #27ae60;'>🌟 La lección del éxito:</strong>")
 
-        # 2. Mostramos el GANCHO CORTICO
+        # Pintar Texto Principal
         st.markdown(f"""
             <div style="font-size: 30px; line-height: 1.3; font-family: 'Georgia', serif; color: #2c3e50; 
                         background-color: #fdf5e6; padding: 30px; border-radius: 15px; 
@@ -1676,42 +1728,48 @@ if st.session_state.page == 'game':
             </div>
         """, unsafe_allow_html=True)
         
-        # 3. BOTÓN PARA AMPLIAR (Solo se muestra si la IA mandó la parte 2)
+        # Botón dinámico para ampliar
         if texto_ampliado:
-            with st.expander("🔥 Échame el cuento completo..."):
+            texto_boton = "📖 Conoce cómo lo lograron..." if "Sabías que" in texto_principal else "🔥 Échame el cuento completo..."
+            with st.expander(texto_boton):
                 st.markdown(f"""
                     <div style="font-size: 24px; color: #444; background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
                         {texto_ampliado}
                     </div>
                 """, unsafe_allow_html=True)
 
-        # 4. Mostramos el CIERRE (La moraleja)
+        # Pintar Cierre
         if texto_cierre:
+            color_borde = "#27ae60" if "La lección del éxito" in texto_cierre else "#d35400"
             st.markdown(f"""
             <div style="font-size: 26px; line-height: 1.3; font-family: 'Georgia', serif; color: #2c3e50; 
                         background-color: #fff3e0; padding: 20px; border-radius: 10px; margin-top: 15px;
-                        border: 2px dashed #d35400;">
+                        border: 2px dashed {color_borde};">
                 {texto_cierre}
             </div>
             """, unsafe_allow_html=True)
 
         st.write("") 
         
-        # 🎛️ BOTONES DE NAVEGACIÓN
-        col1, col2, col3 = st.columns([1, 1, 1])
+        # 🎛️ LOS 4 BOTONES DE ALTERNANCIA (EL BUFFET)
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
-            if st.button("🔄 ¡OTRO CASO DE PASILLO!", use_container_width=True):
-                nuevo_art = obtener_siguiente_articulo()
-                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{nuevo_art}]", tipo="cronica")
+            if st.button("🔄 DE PASILLO", use_container_width=True):
+                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{obtener_siguiente_articulo()}]", tipo="cronica")
                 st.rerun()
         with col2:
-            if st.button("💅 ¡OTRO DE FARÁNDULA!", use_container_width=True):
-                nuevo_art = obtener_siguiente_articulo()
-                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{nuevo_art}]", tipo="farandula")
+            if st.button("💅 FARÁNDULA", use_container_width=True):
+                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{obtener_siguiente_articulo()}]", tipo="farandula")
                 st.rerun()
         with col3:
-            if st.button("🚀 VOLVER AL COMBATE", use_container_width=True):
+            if st.button("💡 MOTIVACIÓN", use_container_width=True):
+                st.session_state.chisme_actual = engine.generar_chisme_ia(f"[{obtener_siguiente_articulo()}]", tipo="motivacion")
+                st.rerun()
+        with col4:
+            if st.button("🚀 AL COMBATE", use_container_width=True):
                 st.session_state.estado_pausa = "none"
+                # Vaciamos la variable para que la próxima vez inicie en la ANTESALA
+                st.session_state.chisme_actual = "" 
                 if "chismes_vistos_pausa" in st.session_state:
                     del st.session_state["chismes_vistos_pausa"]
                 st.rerun()
