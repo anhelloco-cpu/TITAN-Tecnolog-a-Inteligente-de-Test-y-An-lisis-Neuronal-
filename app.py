@@ -1661,23 +1661,34 @@ if st.session_state.page == 'game':
         def obtener_siguiente_articulo():
             import random
             todos = list(engine.sections_map.keys())
-            rojos = st.session_state.get('lista_roja', [])     
-            verdes = st.session_state.get('lista_verde', [])   
+            
+            # 🚨 AQUÍ ESTÁ EL CAMBIO CLAVE: Leer los fallos reales de TITÁN
+            rojos = list(engine.failed_articles) if hasattr(engine, 'failed_articles') and engine.failed_articles else []
+            
+            # Si tienes una lista de aciertos en el engine, úsala, si no, déjala vacía
+            verdes = list(engine.passed_articles) if hasattr(engine, 'passed_articles') and engine.passed_articles else [] 
+            
             no_vistos = [art for art in todos if art not in rojos and art not in verdes]
             
+            # Memoria de la sesión para no repetir en la misma pausa
             if "chismes_vistos_pausa" not in st.session_state:
-                st.session_state.chismes_vistos_pausa = [engine.clean_label(engine.thematic_axis)]
+                st.session_state.chismes_vistos_pausa = []
                 
             rojos_libres = [a for a in rojos if a not in st.session_state.chismes_vistos_pausa]
             no_vistos_libres = [a for a in no_vistos if a not in st.session_state.chismes_vistos_pausa]
             verdes_libres = [a for a in verdes if a not in st.session_state.chismes_vistos_pausa]
             
-            if rojos_libres: elegido = random.choice(rojos_libres)
-            elif no_vistos_libres: elegido = random.choice(no_vistos_libres)
-            elif verdes_libres: elegido = random.choice(verdes_libres)
+            # CASCADA: Prioridad 1 (Rojos/Fallados), Prioridad 2 (No vistos), Prioridad 3 (Verdes/Acertados)
+            if rojos_libres: 
+                elegido = random.choice(rojos_libres)
+            elif no_vistos_libres: 
+                elegido = random.choice(no_vistos_libres)
+            elif verdes_libres: 
+                elegido = random.choice(verdes_libres)
             else:
+                # Si ya te mostramos todo, reiniciamos la memoria y empezamos de nuevo por los rojos
                 st.session_state.chismes_vistos_pausa = []
-                elegido = random.choice(todos)
+                elegido = random.choice(rojos if rojos else todos)
                 
             st.session_state.chismes_vistos_pausa.append(elegido)
             return elegido
