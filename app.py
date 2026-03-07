@@ -1058,9 +1058,14 @@ class LegalEngineTITAN:
 
 # --- 🚀 FUNCIÓN ACTUALIZADA: EL DUO DINÁMICO (JORDY & DORIS) ---
     def generar_chisme_ia(self, label_articulo, tipo="cronica"):
-        """Genera una pausa activa (Chismes reales con sátira o Historias de Éxito reales)."""
+        """Genera una pausa activa..."""
         import random
-        contexto = self.sections_map.get(self.active_section_name, "Normativa General")
+        
+        # 1. Le quitamos los corchetes al nombre que mandan los botones
+        llave_articulo = label_articulo.replace("[", "").replace("]", "")
+        
+        # 2. Obligamos a TITÁN a leer el texto del NUEVO artículo, no del viejo
+        contexto = self.sections_map.get(llave_articulo, "Normativa General")
         
         if tipo == "cronica":
             # 🏛️ PERFIL 1: OFICINA (CASOS POLÍTICOS REALES + SÁTIRA)
