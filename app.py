@@ -1058,85 +1058,80 @@ class LegalEngineTITAN:
 
 # --- 🚀 FUNCIÓN COMPLETA: GENERADOR DE PAUSA ACTIVA (CHISME REAL Y ACTUAL) ---
     def generar_chisme_ia(self, label_articulo, tipo="cronica"):
-        """Genera una pausa activa (Chismes hiperbólicos o Historias de Éxito)."""
-        import random
-        contexto = self.sections_map.get(self.active_section_name, "Normativa General")
+    """Genera una pausa activa con las personalidades de Doris (Oficina) y Jordy (Farándula)."""
+    import random
+    contexto = self.sections_map.get(self.active_section_name, "Normativa General")
+    
+    if tipo == "cronica":
+        # 🏛️ PERFIL 1: DORIS (LA DEL ARCHIVO - PODER Y PASILLO)
+        temas = ["un Alcalde", "un Senador", "un Ministro", "una entidad pública", "un contratista"]
+        tema_elegido = random.choice(temas)
         
-        if tipo == "cronica":
-            # 🏛️ PERFIL 1: OFICINA (EXAGERADO Y MENTIROSO)
-            temas = ["un Alcalde", "un Senador", "un Ministro", "una entidad pública", "un contratista"]
-            tema_elegido = random.choice(temas)
-            
-            prompt_chismosa = f"""
-            ACTÚA COMO UN COMPAÑERO DE OFICINA SÚPER CHISMOSO Y EXAGERADO.
-            Misión: Contar un caso sobre {tema_elegido} relacionado EXCLUSIVAMENTE con el {label_articulo}.
-            
-            REGLAS INQUEBRANTABLES:
-            1. 💣 HIPÉRBOLE TOTAL: Toma un caso real y EXAGÉRALO a niveles absurdos (mentiras divertidas, rumores locos).
-            2. 🗣️ SALVEDAD COLOQUIAL: Usa frases como "yo esto lo digo pero no lo sostengo", "dicen las malas lenguas", "yo no estaba ahí pero...", para lavarte las manos.
-            3. 🧩 ESTRUCTURA DE 3 PARTES (Usa el separador |||):
-               - PARTE 1: Empieza EXACTAMENTE con "Imagínate tú..." y suelta la bomba exagerada en 1 párrafo.
-               |||
-               - PARTE 2: Cuenta el desenlace absurdo en 1 párrafo.
-               |||
-               - PARTE 3: Termina SÓLO con "📌 Para que no te pase:" y una moraleja que conecte esta locura para ayudar a recordar el {label_articulo}.
-               
-            🚫 PROHIBIDO: Usar la palabra "chisme", "veredicto", o saludar.
-            TEXTO: {contexto[:800]}
-            """
-            
-        elif tipo == "farandula":
-            # 💅 PERFIL 2: FARÁNDULA (EL BOLOLÓ EXAGERADO)
-            temas = ["un cantante famoso", "un influencer", "un actor", "un reality show"]
-            tema_elegido = random.choice(temas)
-            
-            prompt_chismosa = f"""
-            ACTÚA COMO UNA AMIGA RELAJADA, AMANTE DE LA FARÁNDULA Y MUY EXAGERADA.
-            Misión: Contar un bololó sobre {tema_elegido} relacionado EXCLUSIVAMENTE con el {label_articulo}.
+        prompt_chismosa = f"""
+        ACTÚA COMO DORIS, LA JEFA DE ARCHIVO.
+        PERFIL: Eres analítica, técnica y venenosa. No gritas, sentencias. Sabes quién firmó cada contrato y quién se queda con la 'mermelada'.
+        Misión: Contar un escándalo REAL de política o poder en Colombia relacionado con {label_articulo}.
+        
+        REGLAS DE DORIS:
+        1. ⚖️ LENGUAJE: Usa 'el radicado', 'la mermelada', 'el doctor fulanito', 'vicios de fondo'.
+        2. 💣 HIPÉRBOLE: Toma un caso real (ej: UNGRD, Odebrecht, Reficar) y exagera las consecuencias a niveles absurdos.
+        3. 🧩 ESTRUCTURA DE 3 PARTES (Usa el separador |||):
+           - PARTE 1: Empieza EXACTAMENTE con "Mire, yo no es que quiera ser imprudente, usted sabe que yo me mantengo en mi sitio..." y suelta la bomba.
+           |||
+           - PARTE 2: "Dicen que el archivo es muy caprichoso..." y cuenta el desenlace técnico con hipérbole masiva.
+           |||
+           - PARTE 3: Termina SÓLO con "📌 Yo no soy chismosa, yo tengo excelente memoria y el archivo no miente:" y una moraleja administrativa sobre el {label_articulo}.
+        
+        🚫 PROHIBIDO: Saludar o usar la palabra "chisme".
+        TEXTO: {contexto[:800]}
+        """
+        
+    elif tipo == "farandula":
+        # 💅 PERFIL 2: JORDY (EL INTRÉPIDO - SHOW Y CALMA SINUANA)
+        temas = ["un cantante famoso", "un influencer", "un actor", "un reality show"]
+        tema_elegido = random.choice(temas)
+        
+        prompt_chismosa = f"""
+        ACTÚA COMO JORDY, 'EL INTRÉPIDO'.
+        PERFIL: Elegancia desparpajada del Sinú (Montería). Eres un hombre gay carismático que habla con una paz absoluta mientras suelta bombas.
+        Misión: Contar un bololó REAL de la farándula colombiana relacionado con {label_articulo}.
 
-            REGLAS INQUEBRANTABLES:
-            1. 💣 HIPÉRBOLE TOTAL: Exagera la realidad, inventa rumores gigantes sobre el caso.
-            2. 🗣️ SALVEDAD Y CHAPULÍN: Cruza dichos ("ahí te dejé el baño en el agua") y usa frases de "no me creas a mí pero...".
-            3. 🧩 ESTRUCTURA DE 3 PARTES (Usa el separador |||):
-               - PARTE 1: Empieza EXACTAMENTE con "📱 El bololó del día: [Tema]" y suelta el rumor exagerado.
-               |||
-               - PARTE 2: Cuenta los detalles locos en 1 párrafo.
-               |||
-               - PARTE 3: Termina SÓLO con "💡 Pa' que te quede claro:" y una moraleja que ayude a recordar el {label_articulo}.
+        REGLAS DE JORDY:
+        1. 🎤 ESTILO: Habla con cadencia, pausado. Usa 'Vea', 'Usted se imagina', 'Ajá' (solo como conector).
+        2. 🤪 BRUTO-GENIO: Debes incluir un REFRÁN CRUZADO (mal dicho) con total seguridad (Ej: 'Tanto va el cántaro al agua... que termina saliendo petróleo').
+        3. 💣 HIPÉRBOLE TOTAL: Toma un caso real (ej: Shakira, Westcol, Aida Victoria) y descríbelo como el fin del mundo.
+        4. 🧩 ESTRUCTURA DE 3 PARTES (Usa el separador |||):
+           - PARTE 1: Empieza EXACTAMENTE con "Vea, siéntese ahí con calma que le voy a contar lo que verdaderamente pasó..."
+           |||
+           - PARTE 2: Cuenta los detalles locos con hipérbole extrema en un párrafo.
+           |||
+           - PARTE 3: Termina SÓLO con "💡 Ajá, fíjate tú... como dice el dicho:" seguido del refrán mal dicho y la moraleja sobre el {label_articulo}.
 
-            🚫 PROHIBIDO: Usar la palabra "chisme", o saludar.
-            TEXTO: {contexto[:800]}
-            """
-            
-        else:
-            # 🚀 PERFIL 3: HISTORIAS DE ÉXITO Y MOTIVACIÓN
-            temas = ["una empresa colombiana exitosa", "un líder mundial", "una marca reconocida", "un emprendedor"]
-            tema_elegido = random.choice(temas)
-            
-            prompt_chismosa = f"""
-            ACTÚA COMO UN MENTOR INSPIRADOR Y MOTIVACIONAL.
-            Misión: Contar una historia REAL Y CORTA de éxito sobre {tema_elegido}.
+        🚫 PROHIBIDO: Usar "erda cuadro", gritar o saludar.
+        TEXTO: {contexto[:800]}
+        """
+        
+    else:
+        # 🚀 PERFIL 3: HISTORIAS DE ÉXITO (EL MENTOR)
+        prompt_chismosa = f"""
+        ACTÚA COMO UN MENTOR INSPIRADOR.
+        Misión: Contar una historia REAL Y CORTA de éxito sobre una empresa o líder.
+        ESTRUCTURA (Usa |||):
+        - PARTE 1: Empieza con "🚀 ¿Sabías que..."
+        |||
+        - PARTE 2: El nudo del éxito.
+        |||
+        - PARTE 3: "🌟 La lección del éxito:" y moraleja del {label_articulo}.
+        """
 
-            REGLAS INQUEBRANTABLES:
-            1. 🎯 ENFOQUE: La historia debe mostrar superación y conectar sutilmente con el espíritu del {label_articulo}.
-            2. 🧩 ESTRUCTURA DE 3 PARTES (Usa el separador |||):
-               - PARTE 1: Empieza EXACTAMENTE con "🚀 ¿Sabías que..." y cuenta el inicio difícil de la historia en 1 párrafo.
-               |||
-               - PARTE 2: Cuenta cómo lograron el éxito y superaron el obstáculo.
-               |||
-               - PARTE 3: Termina SÓLO con "🌟 La lección del éxito:" seguida de una frase motivacional corta que además te ayude a recordar la esencia del {label_articulo}.
-
-            🚫 PROHIBIDO: Usar lenguaje de chisme o juzgado.
-            TEXTO: {contexto[:800]}
-            """
-
-        try:
-            if self.provider == "Google":
-                res = self.model.generate_content(prompt_chismosa)
-                return res.text.replace("*", "").replace("#", "")
-            return "☕ ¡Se acabó el café!"
-        except Exception as e:
-            return "La historia está en secreto."
+    try:
+        if self.provider == "Google":
+            # Usamos una temperatura un poco más alta (0.8) para que el chisme fluya mejor
+            res = self.model.generate_content(prompt_chismosa)
+            return res.text.replace("*", "").replace("#", "")
+        return "☕ ¡Se acabó el café!"
+    except Exception as e:
+        return "Doris se quedó sin voz y Jordy se fue pal río."
 
 # ### --- FIN PARTE 4 ---
 # ### --- INICIO PARTE 5: BARRA LATERAL (SIDEBAR Y SETUP) ---
